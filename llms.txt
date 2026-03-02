@@ -1,0 +1,22 @@
+# Symfony UX AI Instructions
+
+> Curated AI-agent instructions for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, LiveComponent. Covers Symfony UX 2.28+, Symfony 7.4/8.0, PHP 8.4+.
+
+## Documentation
+
+- [Symfony UX Orchestrator](skills/symfony-ux/SKILL.md): Decision tree for choosing between Stimulus, Turbo, TwigComponent, and LiveComponent
+- [Stimulus](skills/stimulus/SKILL.md): Modest JS framework connecting controllers to HTML via data attributes
+- [Stimulus API Reference](skills/stimulus/references/api.md): Lifecycle, targets, values, actions, classes, outlets
+- [Stimulus Patterns](skills/stimulus/references/patterns.md): Debounce, fetch, modals, forms
+- [Stimulus Gotchas](skills/stimulus/references/gotchas.md): Common mistakes, debugging, Turbo compatibility
+- [Turbo](skills/turbo/SKILL.md): SPA-like speed with server-rendered HTML -- Drive, Frames, Streams
+- [Turbo API Reference](skills/turbo/references/api.md): Drive events, Frame attributes, Stream actions, Mercure
+- [Turbo Patterns](skills/turbo/references/patterns.md): Forms, modals, search, pagination
+- [Turbo Gotchas](skills/turbo/references/gotchas.md): Caching, forms, Stimulus integration
+- [TwigComponent](skills/twig-component/SKILL.md): Reusable UI components with PHP + Twig
+- [TwigComponent API Reference](skills/twig-component/references/api.md): Attributes, hooks, configuration
+- [TwigComponent Patterns](skills/twig-component/references/patterns.md): Forms, tables, layouts, composition
+- [LiveComponent](skills/live-component/SKILL.md): Reactive server-rendered UI with zero JavaScript
+- [LiveComponent API Reference](skills/live-component/references/api.md): Props, actions, forms, events
+- [LiveComponent Patterns](skills/live-component/references/patterns.md): Search, CRUD, modals, validation
+- [LiveComponent Gotchas](skills/live-component/references/gotchas.md): Props, hydration, performance
