@@ -372,7 +372,7 @@ Load heavy content after initial page load.
 <h1>Dashboard</h1>
 
 {# Stats load asynchronously #}
-<turbo-frame id="stats" src="{{ path('dashboard_stats') }}" loading="lazy">
+<turbo-frame id="stats" src="{{ path('dashboard_stats') }}" loading="eager">
     <div class="skeleton">Loading stats...</div>
 </turbo-frame>
 
