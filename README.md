@@ -72,6 +72,14 @@ Optional entry-point files for your project root. They provide a quick decision 
 
 ## Installation
 
+### Via [Vercel's Skills CLI](https://skills.sh) (Recommended)
+
+```bash
+npx skills add smnandre/symfony-ux-skills
+```
+
+### Manual Installation
+
 ### 1. Install the skills
 
 Copy each skill directory into the skills location for your platform.
