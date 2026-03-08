@@ -36,6 +36,8 @@ Optional entry-point files for your project root. They provide a quick decision 
 
 ```
 .
+├── .claude-plugin/
+│   └── plugin.json
 ├── README.md
 ├── LICENSE
 ├── CLAUDE.md
@@ -72,7 +74,19 @@ Optional entry-point files for your project root. They provide a quick decision 
 
 ## Installation
 
-### 1. Install the skills
+### Claude Code Plugin (recommended)
+
+This repository is installable as a [Claude Code plugin](https://code.claude.com/docs/en/plugins). Skills are automatically discovered and namespaced under `symfony-ux:`.
+
+```bash
+# Test locally
+claude --plugin-dir /path/to/symfony-ux-skills
+
+# Or install from a marketplace (if available)
+claude plugin install symfony-ux
+```
+
+### Manual installation
 
 Copy each skill directory into the skills location for your platform.
 
