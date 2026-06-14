@@ -6,7 +6,7 @@ metadata:
   author: Simon Andre
   email: smn.andre@gmail.com
   url: https://smnandre.dev
-  version: "1.0"
+  version: "1.2.0"
 ---
 
 # Turbo
