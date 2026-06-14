@@ -30,14 +30,19 @@ By [Simon Andre](https://github.com/smnandre)
 
 ### Claude Code Plugin
 
-This repository is installable as a [Claude Code plugin](https://docs.claude.com/en/docs/claude-code/plugins). Skills are automatically discovered and namespaced under `symfony-ux:`.
+This repository is a [Claude Code plugin marketplace](https://docs.claude.com/en/docs/claude-code/plugins). Add the marketplace, then install the plugin. Skills are namespaced under `symfony-ux-skills:`.
 
 ```bash
-# Test locally
-claude --plugin-dir /path/to/symfony-ux-skills
+claude plugin marketplace add smnandre/symfony-ux-skills
+claude plugin install symfony-ux-skills@symfony-ux-skills
+```
 
-# Or install from a marketplace (if available)
-claude plugin install symfony-ux
+`smnandre/symfony-ux-skills` is the GitHub repository. `symfony-ux-skills@symfony-ux-skills` reads as `plugin@marketplace`.
+
+To load the plugin locally without installing it:
+
+```bash
+claude --plugin-dir /path/to/symfony-ux-skills
 ```
 
 ### Vercel's Skills CLI

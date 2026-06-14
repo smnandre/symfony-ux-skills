@@ -1,6 +1,6 @@
 {
   "name": "symfony-ux-skills",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "AI agent skills for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, LiveComponent, Icons, and Map.",
   "contextFileName": "GEMINI.md"
 }
