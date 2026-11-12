@@ -414,14 +414,14 @@ Auto-refresh a component on a timer:
 
 ```twig
 {# Load component after page renders (deferred AJAX call) #}
-<twig:HeavyComponent defer />
+<twig:HeavyComponent loading="defer" />
 
 {# Load when element scrolls into viewport (IntersectionObserver) #}
-<twig:HeavyComponent lazy />
+<twig:HeavyComponent loading="lazy" />
 
 {# Placeholder while loading #}
-<twig:HeavyComponent lazy>
-    <div>Loading...</div>
+<twig:HeavyComponent loading="lazy">
+    <twig:block name="loadingContent"><div>Loading...</div></twig:block>
 </twig:HeavyComponent>
 ```
 
