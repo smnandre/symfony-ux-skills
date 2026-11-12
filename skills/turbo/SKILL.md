@@ -1,6 +1,6 @@
 ---
 name: turbo
-description: 'Hotwire Turbo for Symfony UX -- SPA-like speed with zero JavaScript. Covers Drive (navigation), Frames (partial page sections), and Streams (multi-target updates). Use when building ajax navigation, lazy-loaded sections, inline editing, pagination without reload, modals from the server, flash messages via streams, or real-time updates via Mercure/SSE. Code triggers: turbo-frame, turbo-stream, data-turbo-frame, data-turbo, data-turbo-action, turbo-stream-source, TurboStreamResponse, <twig:Turbo:Frame>, <twig:Turbo:Stream:Append>, <twig:Turbo:Stream:Replace>, turbo:before-fetch-request. Also trigger when the user asks "how to update part of the page without reload", "how to make navigation feel like SPA", "how to lazy-load a section", "how to do inline editing", "how to push real-time updates from server", "how to use Mercure with Turbo". Do NOT trigger for client-side JS behavior (use stimulus), server-rendered reactive components (use live-component), or reusable static UI (use twig-component).'
+description: 'Hotwire Turbo for Symfony UX -- SPA-like speed with zero JavaScript. Covers Drive (navigation), Frames (partial page sections), and Streams (multi-target updates). Use when building ajax navigation, lazy-loaded sections, inline editing, pagination without reload, modals from the server, flash messages via streams, or real-time updates via Mercure/SSE. Code triggers: turbo-frame, turbo-stream, data-turbo-frame, data-turbo, data-turbo-action, turbo-stream-source, TurboStreamResponse, <twig:Turbo:Frame>, <twig:Turbo:Stream:*>, <twig:Turbo:Stream:From>, turbo_stream_from, turbo:before-fetch-request. Also trigger when the user asks "how to update part of the page without reload", "how to make navigation feel like SPA", "how to lazy-load a section", "how to do inline editing", "how to push real-time updates from server", "how to use Mercure with Turbo". Do NOT trigger for client-side JS behavior (use stimulus), server-rendered reactive components (use live-component), or reusable static UI (use twig-component).'
 license: MIT
 metadata:
   author: Simon Andre
@@ -268,11 +268,15 @@ You can also use the `TurboStreamResponse` helper or `TurboStream` helper method
 
 ### Detect Frame Request
 
+Since Symfony UX 3.1+, use the `TurboFrame` service:
+
 ```php
-public function show(Request $request, int $id): Response
+use Symfony\UX\Turbo\TurboFrame;
+
+public function show(TurboFrame $turboFrame, int $id): Response
 {
-    if ($request->headers->has('Turbo-Frame')) {
-        $frameId = $request->headers->get('Turbo-Frame');
+    if ($turboFrame->isFrameRequest()) {
+        $frameId = $turboFrame->getRequestId();
         // Return only the frame content (or a full page -- Turbo extracts the frame)
     }
 
@@ -280,11 +284,16 @@ public function show(Request $request, int $id): Response
 }
 ```
 
+In Twig, use `turbo_is_frame_request()` and `turbo_frame_request_id()`. To skip the full page layout in frame responses, see the minimal frame layout in [references/api.md](references/api.md#minimal-frame-layout).
+
 ### Mercure Broadcasts (Real-time)
 
-Push changes to all connected browsers via SSE:
+Requires `symfony/mercure-bundle`, a Mercure hub and a Doctrine entity. Push changes to all connected browsers via SSE:
 
 ```php
+// src/Entity/Message.php
+namespace App\Entity;
+
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[Broadcast]
@@ -294,15 +303,20 @@ class Message
 }
 ```
 
+Since Symfony UX 3.1+, subscribe with `<twig:Turbo:Stream:From>` (requires `symfony/ux-twig-component`) or `turbo_stream_from()`:
+
 ```twig
-{# Subscribe to Mercure topic #}
-<turbo-stream-source src="{{ mercure('chat-room-1')|escape('html_attr') }}">
-</turbo-stream-source>
+{# Subscribe to the updates of every Message entity #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
 
 <div id="messages">
     {# Messages appear here in real-time #}
 </div>
 ```
+
+- `#[Broadcast]` publishes to a topic derived from the entity class and id: subscribe with the class name (double the backslashes), or with an entity for that entity's updates only (`{{ turbo_stream_from(message) }}`).
+- Each change renders `templates/broadcast/Message.stream.html.twig`: it must define the `create`, `update` and `remove` blocks, and receives `entity`, `id` and `action` (no `message` variable).
+- For updates you publish yourself with `HubInterface::publish()`, subscribe to the same topic: `<twig:Turbo:Stream:From topics="chat" />`.
 
 ## Common Patterns
 

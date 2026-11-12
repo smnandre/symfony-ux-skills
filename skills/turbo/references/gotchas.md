@@ -401,34 +401,56 @@ console.log({
 ### Connection Not Established
 
 ```twig
-{# Verify Mercure URL is correct #}
-<turbo-stream-source src="{{ mercure('topic')|escape('html_attr') }}">
-</turbo-stream-source>
+{# Renders a <turbo-mercure-stream-source> connected to the hub's public URL #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
 ```
 
-Check browser console for WebSocket/SSE errors.
+Check the hub's public URL (`MERCURE_PUBLIC_URL`) and the browser console for SSE errors.
 
 ### Broadcasts Not Received
 
 ```php
-// Ensure entity has Broadcast attribute
+// src/Entity/Message.php
+namespace App\Entity;
+
+use Symfony\UX\Turbo\Attribute\Broadcast;
+
+// Without `topics`, #[Broadcast] publishes to a topic derived from the entity class and id
 #[Broadcast]
 class Message { }
-
-// Check Mercure hub is running
-// Check topic matches subscription
 ```
 
-### Stream Source Placement
+```twig
+{# ❌ Arbitrary topic: does not match the #[Broadcast] topic #}
+<twig:Turbo:Stream:From topics="chat" />
 
-```html
-<!-- ❌ In <head> - persists across navigation, duplicates -->
-<head>
-    <turbo-stream-source src="...">
-</head>
+{# ❌ Single backslashes: Twig 3 drops them, the topic becomes "AppEntityMessage" #}
+<twig:Turbo:Stream:From topics="App\Entity\Message" />
 
-<!-- ✅ In <body> - properly managed -->
-<body>
-    <turbo-stream-source src="...">
-</body>
+{# ✅ Class name with doubled backslashes #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
 ```
+
+The class name must be exact: otherwise (unknown class, wrong case, leading backslash) the topic never matches, with no error.
+
+Also check that the Mercure hub is running, and that the class is a Doctrine entity: only entities flushed by Doctrine are broadcast. If nothing changes in the page, check that the stream targets exist in the DOM (`message_{{ id }}` ↔ `id="message_{{ message.id }}"`): Turbo ignores actions on missing elements. A missing broadcast template or block does not fail silently: it throws when the entity is flushed.
+
+### `turbo_stream_listen()` Is Deprecated
+
+```twig
+{# ❌ Deprecated since Symfony UX 3.1; since Symfony UX 3.6, throws on a Mercure protocol 1.0 hub (the MercureBundle 0.6+ default) #}
+{{ turbo_stream_listen('App\\Entity\\Message') }}
+
+{# ✅ #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
+```
+
+### Keeping the Connection Across Pages
+
+Each page opens its own connection to the hub. Since Symfony UX 3.7+, keep it open across Turbo Drive visits with an `id` and `data-turbo-permanent`:
+
+```twig
+<twig:Turbo:Stream:From topics="chat" id="chat-stream" data-turbo-permanent />
+```
+
+Render it inside `<body>` on every page (e.g. in `base.html.twig`). Turbo matches permanent elements by `id` only: derive it from the topics and the `private` option (e.g. `private-chat-stream`), otherwise a page that listens to other topics, or that is not private, keeps the connection of the previous page. Keep the `id` a valid CSS identifier (letters, digits, `-` and `_`, not starting with a digit): Turbo uses it in a selector.
