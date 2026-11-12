@@ -498,14 +498,14 @@ class MyComponentTest extends KernelTestCase
 
 ```twig
 {# Load immediately after page (defer) #}
-<twig:HeavyComponent defer />
+<twig:HeavyComponent loading="defer" />
 
 {# Load when visible (lazy) #}
-<twig:HeavyComponent lazy />
+<twig:HeavyComponent loading="lazy" />
 
 {# With placeholder #}
-<twig:HeavyComponent lazy>
-    <div class="skeleton">Loading...</div>
+<twig:HeavyComponent loading="lazy">
+    <twig:block name="loadingContent"><div class="skeleton">Loading...</div></twig:block>
 </twig:HeavyComponent>
 
 {# Custom loading attribute in component #}
