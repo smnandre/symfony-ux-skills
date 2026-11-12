@@ -208,16 +208,18 @@ Use `targets` (plural) with a CSS selector to affect multiple elements:
 Since Symfony UX 2.22+, you can use `<twig:Turbo:Stream:*>` components instead of raw HTML:
 
 ```twig
-<twig:Turbo:Stream:Append target="comments">
+<twig:Turbo:Stream:Append target="#comments">
     {{ include('comment/_comment.html.twig') }}
 </twig:Turbo:Stream:Append>
 
-<twig:Turbo:Stream:Update target="comment-count">
+<twig:Turbo:Stream:Update target="#comment-count">
     {{ count }}
 </twig:Turbo:Stream:Update>
 
-<twig:Turbo:Stream:Remove target="msg_5" />
+<twig:Turbo:Stream:Remove target="#msg_5" />
 ```
+
+The component's `target` prop is rendered as `targets`, a CSS selector: prefix ids with `#`.
 
 ## Symfony Integration
 

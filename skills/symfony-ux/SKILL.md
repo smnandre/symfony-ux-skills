@@ -213,7 +213,7 @@ public function create(Request $request): Response
 You can also use the Twig component syntax:
 
 ```twig
-<twig:Turbo:Stream:Append target="comments">
+<twig:Turbo:Stream:Append target="#comments">
     {{ include('comment/_comment.html.twig') }}
 </twig:Turbo:Stream:Append>
 ```
