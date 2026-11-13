@@ -89,6 +89,8 @@ Anonymous components (no PHP class) must be in the `anonymous_template_directory
 # config/packages/twig_component.yaml
 twig_component:
     anonymous_template_directory: 'components/'
+    defaults:
+        App\Twig\Components\: 'components/'
 ```
 
 ```

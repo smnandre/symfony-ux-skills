@@ -205,7 +205,7 @@ Use `targets` (plural) with a CSS selector to affect multiple elements:
 
 ### Twig Component Syntax for Streams
 
-Since Symfony UX 2.22+, you can use `<twig:Turbo:Stream:*>` components instead of raw HTML:
+You can use `<twig:Turbo:Stream:*>` components instead of raw HTML:
 
 ```twig
 <twig:Turbo:Stream:Append target="comments">

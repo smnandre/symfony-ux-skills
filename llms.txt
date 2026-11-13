@@ -1,6 +1,6 @@
 # Symfony UX Agent Skills
 
-> AI agent skills for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, LiveComponent, Icons, and Map. Built on the agentskills.io open standard. Covers Symfony UX 2.22--2.28+, Symfony 7.2/7.4/8.0, PHP 8.4+.
+> AI agent skills for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, LiveComponent, Icons, and Map. Built on the agentskills.io open standard. Covers Symfony UX 3.x, Symfony 7.4/8.x, PHP 8.4+.
 
 ## Documentation
 

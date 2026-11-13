@@ -20,7 +20,7 @@ This project uses the Symfony UX frontend stack. Seven agent skills are installe
 - Stimulus controllers must clean up listeners and observers in `disconnect()`
 - Turbo Frame IDs must match between the page and the server response
 - Use Turbo Streams when updating multiple page sections; use Frames for a single section
-- `<twig:Turbo:Stream:Append>` syntax is available since Symfony UX 2.22+
+- `<twig:Turbo:Stream:*>` components (e.g. `<twig:Turbo:Stream:Append target="#comments">`) can replace raw `<turbo-stream>` HTML
 - Prefer `<twig:ux:icon name="..." />` over `{{ ux_icon('...') }}` for consistency
 - Map containers must have an explicit height (`style="height: 400px;"`)
 - Use `fitBoundsToMarkers()` instead of manually calculating center/zoom
