@@ -132,6 +132,45 @@ Response must contain a `<turbo-frame>` with matching `id`:
 <div>No matching frame!</div>
 ```
 
+### Detecting Frame Requests
+
+Since Symfony UX 3.1+, detect frame requests with the `TurboFrame` service (`isFrameRequest()`, `getRequestId()`), or in Twig:
+
+```twig
+{% if turbo_is_frame_request() %}
+    <p>Frame ID: {{ turbo_frame_request_id() }}</p>
+{% endif %}
+```
+
+### Minimal Frame Layout
+
+Since Symfony UX 3.1+, a frame response can extend the minimal frame layout, which skips the full page layout but still lets the response fill its `<head>` (e.g. meta tags):
+
+```twig
+{# templates/task/edit.html.twig #}
+{% extends '@Turbo/layouts/frame.html.twig' %}
+
+{% block head %}
+    {{ turbo_exempts_page_from_cache() }}
+{% endblock %}
+
+{% block body %}
+    <turbo-frame id="task_{{ task.id }}">
+        {{ form(form) }}
+    </turbo-frame>
+{% endblock %}
+```
+
+Use it only for templates rendered for frame requests: a page opened directly (e.g. on reload after `data-turbo-action="advance"`) would have no CSS or JS. For a template served both ways:
+
+```twig
+{% extends turbo_is_frame_request() ? '@Turbo/layouts/frame.html.twig' : 'base.html.twig' %}
+```
+
+The standard `base.html.twig` has no `head` block: in a full page, the content of `{% block head %}` is not rendered unless you add that block to `base.html.twig`.
+
+If the frame navigation is promoted to a visit (`data-turbo-action="advance"` or `"replace"`), Turbo 8 merges the response `<head>` into the page, which then loses its `<title>`, its `<meta>` and non-stylesheet `<link>` tags, and its `lang` and `dir` attributes, unless the page scripts carry `data-turbo-track="reload"` (added automatically with AssetMapper; add it yourself with Webpack Encore). Otherwise, render the full layout for the frames you promote to a visit.
+
 ---
 
 ## Turbo Streams
@@ -222,11 +261,34 @@ return $this->render('item/create.stream.html.twig');
 ```html
 <turbo-stream-source src="wss://example.com/updates">
 </turbo-stream-source>
-
-<!-- Or with Mercure -->
-<turbo-stream-source src="{{ mercure('topic')|escape('html_attr') }}">
-</turbo-stream-source>
 ```
+
+Since Symfony UX 3.1+, subscribe with Mercure through the `<twig:Turbo:Stream:From>` component (requires `symfony/ux-twig-component`) or the `turbo_stream_from()` function:
+
+```twig
+{# Plain topic, published with HubInterface::publish() #}
+<twig:Turbo:Stream:From topics="chat" />
+
+{# Every entity of a #[Broadcast] class (double the backslashes) #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
+
+{# One entity #}
+{{ turbo_stream_from(message) }}
+
+{# Private updates, on a specific hub #}
+{{ turbo_stream_from('chat', private: true, transport: 'hub2') }}
+```
+
+| Option | Description |
+|--------|-------------|
+| `topics` | Topic, entity, entity class name, or a list of them |
+| `private` | Sets the Mercure authorization cookie and connects with credentials, to receive private updates; the page and the hub must share the same second-level domain, otherwise rendering throws |
+| `transport` | Mercure hub to use, when several are configured |
+| `subscribe` | Since Symfony UX 3.7+: extra topics granted by the authorization cookie (requires `private`). The browser keeps one cookie per hub and the last rendered page wins: list every topic the user may receive, so that other open pages keep theirs |
+
+Since Symfony UX 3.7+, other attributes of the component are rendered on the `<turbo-mercure-stream-source>` element; with the function, pass them in the `attributes` argument (`src` and `private` are reserved).
+
+Since Symfony UX 3.6+, subscribing to an entity class also works on a Mercure protocol 1.0 hub (the MercureBundle 0.6+ default).
 
 **3. Inline in Page**
 

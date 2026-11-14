@@ -230,9 +230,12 @@ Combine for complex UIs -- the frame scopes navigation, the LiveComponent handle
 
 ### Pattern 7: Real-Time Updates (Mercure + Turbo Stream)
 
-Broadcast server-side events to all connected browsers via SSE.
+Broadcast server-side events to all connected browsers via SSE. Requires `symfony/mercure-bundle`, a Mercure hub and a Doctrine entity.
 
 ```php
+// src/Entity/Message.php
+namespace App\Entity;
+
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[Broadcast]
@@ -242,11 +245,14 @@ class Message
 }
 ```
 
+Since Symfony UX 3.1+, subscribe with `<twig:Turbo:Stream:From>` (requires `symfony/ux-twig-component`):
+
 ```twig
-<turbo-stream-source src="{{ mercure('chat')|escape('html_attr') }}">
-</turbo-stream-source>
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
 <div id="messages">...</div>
 ```
+
+Each change renders `templates/broadcast/Message.stream.html.twig`, with `create`, `update` and `remove` blocks (see the turbo skill).
 
 ## When to Use What
 
