@@ -162,7 +162,11 @@ In Twig templates, use `turbo_is_frame_request()` and `turbo_frame_request_id()`
 
 ### Minimal Frame Layout
 
-Since Symfony UX 3.1+, a frame response can extend the minimal frame layout, which skips the full page layout but still lets the response fill its `<head>` (e.g. meta tags):
+A frame response can be a full page: Turbo swaps in the matching `<turbo-frame>` and discards the rest of the `<body>`, so most frame responses need nothing special.
+
+If rendering the full page layout for a frame is wasteful, you can skip it. But Turbo still reads the response `<head>` (e.g. `turbo_page_requires_reload()` turns the frame navigation into a full page visit), and without any layout, the template has nowhere to put it.
+
+Since Symfony UX 3.1+, extend the minimal frame layout instead. It renders a bare HTML document whose `<head>` you can fill:
 
 ```twig
 {# templates/task/edit.html.twig #}
