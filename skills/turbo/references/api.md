@@ -134,7 +134,25 @@ Response must contain a `<turbo-frame>` with matching `id`:
 
 ### Detecting Frame Requests
 
-Since Symfony UX 3.1+, detect frame requests with the `TurboFrame` service (`isFrameRequest()`, `getRequestId()`), or in Twig:
+Since Symfony UX 3.1+, you can detect frame requests in a controller or in Twig.
+
+In a controller, inject the `TurboFrame` service. `isFrameRequest()` tells whether a frame triggered the request, and `getRequestId()` returns the id of that frame (e.g. `"task_details"`):
+
+```php
+use Symfony\UX\Turbo\TurboFrame;
+
+public function show(TurboFrame $turboFrame, Task $task): Response
+{
+    if ($turboFrame->isFrameRequest()) {
+        // A frame-only template, which can extend the minimal frame layout (see below)
+        return $this->render('task/show_frame.html.twig', ['task' => $task]);
+    }
+
+    return $this->render('task/show.html.twig', ['task' => $task]);
+}
+```
+
+In Twig templates, use `turbo_is_frame_request()` and `turbo_frame_request_id()`:
 
 ```twig
 {% if turbo_is_frame_request() %}
