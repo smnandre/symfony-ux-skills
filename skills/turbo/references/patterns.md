@@ -303,6 +303,10 @@ Broadcast changes to all connected clients.
 ### Entity Setup
 
 ```php
+// src/Entity/Message.php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity]
@@ -316,6 +320,16 @@ class Message
     
     #[ORM\Column]
     private string $content;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
     
     // ...
 }
@@ -324,9 +338,8 @@ class Message
 ### Template with Stream Source
 
 ```twig
-{# Subscribe to Mercure updates #}
-<turbo-stream-source src="{{ mercure('Message')|escape('html_attr') }}">
-</turbo-stream-source>
+{# Subscribe to the updates of every Message entity #}
+<twig:Turbo:Stream:From topics="App\\Entity\\Message" />
 
 <div id="messages">
     {% for message in messages %}
@@ -337,26 +350,33 @@ class Message
 {# New messages auto-appear for all users #}
 ```
 
+```twig
+{# templates/message/_message.html.twig #}
+{# Its id is the target of the update and remove blocks below #}
+<div id="message_{{ message.id }}">{{ message.content }}</div>
+```
+
 ### Broadcast Templates
 
 ```twig
 {# templates/broadcast/Message.stream.html.twig #}
-{# Rendered when entity is created/updated #}
+{# Rendered when the entity is created, updated or removed. #}
+{# Receives `entity`, `id` and `action`: there is no `message` variable. #}
 
 {% block create %}
 <turbo-stream action="append" target="messages">
-    <template>{{ include('message/_message.html.twig') }}</template>
+    <template>{{ include('message/_message.html.twig', {message: entity}) }}</template>
 </turbo-stream>
 {% endblock %}
 
 {% block update %}
-<turbo-stream action="replace" target="message_{{ message.id }}">
-    <template>{{ include('message/_message.html.twig') }}</template>
+<turbo-stream action="replace" target="message_{{ id }}">
+    <template>{{ include('message/_message.html.twig', {message: entity}) }}</template>
 </turbo-stream>
 {% endblock %}
 
 {% block remove %}
-<turbo-stream action="remove" target="message_{{ message.id }}">
+<turbo-stream action="remove" target="message_{{ id }}">
 </turbo-stream>
 {% endblock %}
 ```
