@@ -290,7 +290,6 @@ final class OrderForm extends AbstractController
 
 {# Modifiers #}
 <input data-model="on(change)|fieldName">     {# Update on change event #}
-<input data-model="on(blur)|fieldName">       {# Update on blur #}
 <input data-model="norender|fieldName">       {# Update without re-render #}
 <input data-model="debounce(500)|fieldName">  {# Debounce in ms #}
 

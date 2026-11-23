@@ -153,14 +153,14 @@ public function dehydrateStatus(Status $status): string
 Bind inputs to writable LiveProps. When the input changes, the component re-renders with the new value.
 
 ```twig
-{# Re-render on change (default) #}
+{# Re-render as the user types (default) #}
 <input type="text" data-model="search">
 
 {# Debounced -- wait 300ms after last keystroke #}
 <input type="text" data-model="debounce(300)|search">
 
 {# Only update on blur #}
-<input type="text" data-model="on(blur)|search">
+<input type="text" data-model="on(change)|search">
 
 {# Update model but don't re-render yet #}
 <input type="text" data-model="norender|search">
@@ -175,11 +175,11 @@ Bind inputs to writable LiveProps. When the input changes, the component re-rend
 ### Validation Modifiers
 
 ```twig
-{# Only re-render when input meets criteria #}
-<input data-model="minlength(3)|search">
-<input data-model="maxlength(100)|bio">
-<input data-model="min(0)|quantity">
-<input data-model="max(999)|price">
+{# Only update the model when input meets criteria #}
+<input data-model="min_length(3)|search">
+<input data-model="max_length(100)|bio">
+<input type="number" data-model="min_value(0)|quantity">
+<input type="number" data-model="max_value(999)|price">
 ```
 
 ## LiveAction
@@ -462,7 +462,7 @@ public function getFilteredItems(): array
 
 **Keep components small.** Large components with many LiveProps and complex templates are slow to re-render. Split into smaller, focused components that communicate via emit/listen.
 
-**Use `norender` and `on(blur)` to reduce requests.** Not every keystroke needs a server call. Debounce text inputs, defer binding to blur events for fields that don't need instant feedback.
+**Use `norender` and `on(change)` to reduce requests.** Not every keystroke needs a server call. Debounce text inputs, defer updates to the `change` event for fields that don't need instant feedback.
 
 **`{{ attributes }}` on root element is non-negotiable.** Without it, the live behavior Stimulus controller is never attached and nothing works.
 
