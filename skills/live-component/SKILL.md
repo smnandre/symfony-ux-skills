@@ -404,10 +404,10 @@ Auto-refresh a component on a timer:
 <div {{ attributes }} data-poll>
 
 {# Custom interval #}
-<div {{ attributes }} data-poll="delay(5000)">
+<div {{ attributes }} data-poll="delay(5000)|$render">
 
 {# Call specific action on each poll #}
-<div {{ attributes }} data-poll="action(refresh)">
+<div {{ attributes }} data-poll="refresh">
 ```
 
 ## Lazy / Deferred Loading
