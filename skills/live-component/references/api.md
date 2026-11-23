@@ -294,8 +294,11 @@ final class OrderForm extends AbstractController
 <input data-model="norender|fieldName">       {# Update without re-render #}
 <input data-model="debounce(500)|fieldName">  {# Debounce in ms #}
 
-{# Validation modifiers #}
-<input data-model="validatedFields" name="email">  {# Validates on change #}
+{# Validation modifiers -- only update the model when input meets criteria #}
+<input data-model="min_length(3)|search">
+<input data-model="max_length(100)|bio">
+<input type="number" data-model="min_value(0)|quantity">
+<input type="number" data-model="max_value(999)|price">
 
 {# Nested properties #}
 <input data-model="user.email">

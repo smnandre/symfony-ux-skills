@@ -338,11 +338,7 @@ final class RegistrationForm extends AbstractController
 
 ### Real-time Validation
 
-```twig
-{{ form_row(form.email, {
-    attr: {'data-model': 'on(blur)|validatedFields'}
-}) }}
-```
+Nothing to add on the fields: `ComponentWithFormTrait` adds `data-model="on(change)|*"` to the `<form>`, so each field is validated as soon as the user finishes changing it.
 
 ## Component Communication
 
