@@ -275,7 +275,7 @@ Show visual feedback during AJAX re-renders:
 <div data-loading="hide">Content</div>
 
 {# Disable button while loading #}
-<button data-loading="attr(disabled)">Submit</button>
+<button data-loading="addAttribute(disabled)">Submit</button>
 
 {# Scoped to specific action or model #}
 <span data-loading="action(save)|show">Saving...</span>
@@ -330,7 +330,7 @@ final class RegistrationForm extends AbstractController
     {{ form_row(form.email) }}
     {{ form_row(form.password) }}
 
-    <button type="submit" data-loading="attr(disabled)">Register</button>
+    <button type="submit" data-loading="addAttribute(disabled)">Register</button>
 
     {{ form_end(form) }}
 </div>

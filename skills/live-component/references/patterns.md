@@ -72,7 +72,7 @@ final class ProductSearch
         <button 
             data-action="live#action"
             data-live-action-param="loadMore"
-            data-loading="attr(disabled)"
+            data-loading="addAttribute(disabled)"
         >
             Load More
         </button>
@@ -291,7 +291,7 @@ final class ContactForm extends AbstractController
             {{ form_errors(form.message) }}
         </div>
         
-        <button type="submit" data-loading="attr(disabled)">
+        <button type="submit" data-loading="addAttribute(disabled)">
             <span data-loading="hide">Send Message</span>
             <span data-loading="show">Sending...</span>
         </button>
@@ -458,7 +458,7 @@ final class CreateItemModal extends AbstractController
                 <button type="button" data-action="live#action" data-live-action-param="close">
                     Cancel
                 </button>
-                <button type="submit" data-loading="attr(disabled)">
+                <button type="submit" data-loading="addAttribute(disabled)">
                     Create
                 </button>
             </footer>
