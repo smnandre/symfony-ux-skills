@@ -279,9 +279,7 @@ final class ContactForm extends AbstractController
         
         <div class="form-group">
             {{ form_label(form.email) }}
-            {{ form_widget(form.email, {
-                attr: {'data-model': 'on(blur)|validatedFields'}
-            }) }}
+            {{ form_widget(form.email) }}
             {{ form_errors(form.email) }}
         </div>
         
