@@ -181,11 +181,7 @@ public function save(): void
 #[LiveAction]
 public function save(): void
 {
-    $this->submitForm();  // Validates
-    
-    if (!$this->getForm()->isValid()) {
-        return;  // Re-renders with errors
-    }
+    $this->submitForm();  // Throws if invalid: the component re-renders with the errors
     
     $data = $this->getForm()->getData();
 }

@@ -249,10 +249,6 @@ final class ContactForm extends AbstractController
     {
         $this->submitForm();
         
-        if (!$this->getForm()->isValid()) {
-            return;
-        }
-        
         $data = $this->getForm()->getData();
         
         // Send email...
@@ -416,10 +412,6 @@ final class CreateItemModal extends AbstractController
     public function save(EntityManagerInterface $em): void
     {
         $this->submitForm();
-        
-        if (!$this->getForm()->isValid()) {
-            return;
-        }
         
         $item = $this->getForm()->getData();
         $em->persist($item);
