@@ -270,7 +270,7 @@ public function getProducts(): array
 <input data-model="debounce(300)|search">
 
 {# ✅ Only update on blur #}
-<input data-model="on(blur)|search">
+<input data-model="on(change)|search">
 ```
 
 ### Heavy Computed Properties
