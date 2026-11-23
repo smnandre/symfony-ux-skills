@@ -330,8 +330,8 @@ final class OrderForm extends AbstractController
 <span data-loading="hide">Content</span>
 
 {# Attributes #}
-<button data-loading="attr(disabled)">
-<input data-loading="attr(readonly)">
+<button data-loading="addAttribute(disabled)">
+<input data-loading="addAttribute(readonly)">
 
 {# Scoped to action #}
 <span data-loading="action(save)|show">Saving...</span>
@@ -342,8 +342,8 @@ final class OrderForm extends AbstractController
 {# Delay #}
 <span data-loading="delay(200)|show">
 
-{# Combine #}
-<button data-loading="action(save)|addClass(opacity-50) attr(disabled)">
+{# Combine (a modifier only applies to its own directive) #}
+<button data-loading="action(save)|addClass(opacity-50) action(save)|addAttribute(disabled)">
 ```
 
 ### data-poll
