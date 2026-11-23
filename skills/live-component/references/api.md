@@ -353,10 +353,10 @@ final class OrderForm extends AbstractController
 <div {{ attributes }} data-poll>
 
 {# Custom delay #}
-<div {{ attributes }} data-poll="delay(5000)">
+<div {{ attributes }} data-poll="delay(5000)|$render">
 
 {# Call action #}
-<div {{ attributes }} data-poll="action(refresh)">
+<div {{ attributes }} data-poll="refresh">
 ```
 
 ### data-live-ignore
