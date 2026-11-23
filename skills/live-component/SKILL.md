@@ -328,6 +328,7 @@ final class RegistrationForm extends AbstractController
     }) }}
 
     {{ form_row(form.email) }}
+    {# Re-renders clear a PasswordType field: set 'always_empty' => false in UserType #}
     {{ form_row(form.password) }}
 
     <button type="submit" data-loading="attr(disabled)">Register</button>

@@ -226,11 +226,7 @@ final class MyForm extends AbstractController
     #[LiveAction]
     public function save(): void
     {
-        $this->submitForm();  // Validates and submits
-        
-        if (!$this->getForm()->isValid()) {
-            return;  // Re-renders with errors
-        }
+        $this->submitForm();  // Throws if invalid: the component re-renders with the errors
         
         $entity = $this->getForm()->getData();
         // ...
