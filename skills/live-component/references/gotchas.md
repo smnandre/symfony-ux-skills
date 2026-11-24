@@ -263,10 +263,10 @@ public function getProducts(): array
 ### Too Many Re-renders
 
 ```twig
-{# ❌ Re-renders on every keystroke #}
+{# ❌ Default: re-renders after each 150ms pause in typing #}
 <input data-model="search">
 
-{# ✅ Debounce to reduce requests #}
+{# ✅ Longer debounce to reduce requests #}
 <input data-model="debounce(300)|search">
 
 {# ✅ Only update on blur #}
