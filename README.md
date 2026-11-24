@@ -158,7 +158,7 @@ Optional files for your project root. They give the agent a quick decision tree 
 
 Targets **Symfony UX 3.x**, Symfony 7.4 / 8.x, PHP 8.4+.
 
-Documented features include `<twig:Turbo:Stream:*>` component syntax, `TurboStreamResponse` helper, LiveProp URL binding with validation modifiers, `defer` / `lazy` loading for LiveComponents, UX Toolkit (copy-paste UI components), Iconify on-demand icons with `ux:icons:lock` CLI, and UX Map with Leaflet/Google Maps renderers including polygons, polylines, circles and `ComponentWithMapTrait`.
+Documented features include `<twig:Turbo:Stream:*>` component syntax, `TurboStreamResponse` helper, LiveProp URL binding, `data-model` validation modifiers, `defer` / `lazy` loading for LiveComponents, UX Toolkit (copy-paste UI components), Iconify on-demand icons with `ux:icons:lock` CLI, and UX Map with Leaflet/Google Maps renderers including polygons, polylines, circles and `ComponentWithMapTrait`.
 
 ## Author
 
