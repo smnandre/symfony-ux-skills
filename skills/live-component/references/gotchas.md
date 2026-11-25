@@ -163,6 +163,37 @@ public function delete(#[LiveArg] int $id): void { }
 public function delete(#[LiveArg('id')] int $itemId): void { }
 ```
 
+### LiveResponse from the Default Action
+
+```php
+// ❌ Throws: the default action runs on each re-render without an action (e.g. data-model, $render, plain data-poll, defer/lazy)
+public function __invoke(): LiveResponse { return LiveResponse::remove(); }
+
+// ✅ Return it from a LiveAction or a LiveListener
+#[LiveAction]
+public function dismiss(): LiveResponse { return LiveResponse::remove(); }
+```
+
+### noRender() Keeps the Old HTML
+
+```php
+// ❌ Since Symfony UX 3.8+, noRender() skips the template: the page still shows the old count
+#[LiveAction]
+public function increment(): LiveResponse
+{
+    ++$this->count;  // {{ count }} in the template
+
+    return LiveResponse::noRender();
+}
+
+// ✅ Let the component re-render when the template shows the change
+#[LiveAction]
+public function increment(): void
+{
+    ++$this->count;
+}
+```
+
 ---
 
 ## Form Issues

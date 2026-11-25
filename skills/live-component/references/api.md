@@ -156,6 +156,40 @@ Template:
 >
 ```
 
+### LiveResponse
+
+Since Symfony UX 3.5+, return a `LiveResponse` to change what happens after the action:
+
+```php
+use Symfony\UX\LiveComponent\LiveResponse;
+
+// Browser downloads the file from its own URL (preferred: native, no memory used)
+return LiveResponse::downloadUrl($urlGenerator->generate('app_report_download'));
+
+// Sends the file with the render, when no URL can serve it
+return LiveResponse::downloadFile($this->buildCsv(), 'report.csv', 'text/csv');
+
+// Content: a string (never a path), an \SplFileInfo (filename optional), a resource,
+// or a \Closure that echoes it or returns an iterable; for a resource or a closure,
+// pass the exact size when known, to send a Content-Length
+return LiveResponse::downloadFile($stream, 'report.csv', 'text/csv', $size);
+
+// Takes the component off the page after a final render
+// (its emitted events still reach other components)
+return LiveResponse::remove();
+
+// Since Symfony UX 3.8+: skips the render, for state the template does not show
+return LiveResponse::noRender();
+```
+
+```css
+/* remove(): the root element carries data-live-removing until its transition or animation ends */
+.notification { transition: opacity 300ms; }
+.notification[data-live-removing] { opacity: 0; }
+```
+
+Return a `LiveResponse` only from a `LiveAction` or a `LiveListener`. An action redirects or returns a `LiveResponse`, not both. When several actions are sent in one request (batched actions), a redirect from any of them wins and stops the actions after it; otherwise the last `LiveResponse` other than `noRender()` wins, and `noRender()` only applies when every action returns it.
+
 ---
 
 ## Traits
