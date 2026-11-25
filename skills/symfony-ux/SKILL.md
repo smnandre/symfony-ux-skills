@@ -348,6 +348,6 @@ For detailed documentation on each tool, read the dedicated skill:
 - **Stimulus**: Controllers, targets, values, actions, outlets, lazy loading
 - **Turbo**: Drive, Frames, Streams, Mercure integration, `<twig:Turbo:Stream:*>` components
 - **TwigComponent**: Props, blocks, computed properties, anonymous components, attributes
-- **LiveComponent**: LiveProp, LiveAction, data-model, forms, emit/listen, polling, defer/lazy
+- **LiveComponent**: LiveProp, LiveAction, LiveResponse, data-model, forms, emit/listen, polling, defer/lazy
 - **UX Icons**: Iconify on-demand, local SVG, icon sets, aliases, `ux:icons:lock` CLI
 - **UX Map**: Leaflet/Google Maps, markers, polygons, polylines, circles, `ComponentWithMapTrait`

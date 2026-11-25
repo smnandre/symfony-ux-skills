@@ -1,6 +1,6 @@
 ---
 name: live-component
-description: 'Symfony UX LiveComponent for reactive server-rendered UI -- components that re-render via AJAX on user interaction, zero JavaScript required. Use when building live search, real-time filtering, dynamic forms, inline validation, dependent selects, auto-save, polling, deferred/lazy rendering, or any UI that updates itself based on user input. Code triggers: AsLiveComponent, LiveProp, LiveAction, data-model, data-loading, data-live-action-url, ComponentWithFormTrait, LiveListener, emit, defer, lazy, polling. Also trigger when the user asks "how to build a search that filters as I type", "how to validate a form in real-time", "how to make a reactive component in PHP", "how to build dependent selects", "how to defer component rendering", "how to communicate between components via emit", "how to bind a form to a LiveComponent". Do NOT trigger for static reusable UI without reactivity (use twig-component), pure client-side JS behavior (use stimulus), or page-level navigation (use turbo).'
+description: 'Symfony UX LiveComponent for reactive server-rendered UI -- components that re-render via AJAX on user interaction, zero JavaScript required. Use when building live search, real-time filtering, dynamic forms, inline validation, dependent selects, auto-save, polling, deferred/lazy rendering, or any UI that updates itself based on user input. Code triggers: AsLiveComponent, LiveProp, LiveAction, LiveResponse, data-model, data-loading, data-live-action-url, ComponentWithFormTrait, LiveListener, emit, defer, lazy, polling. Also trigger when the user asks "how to build a search that filters as I type", "how to validate a form in real-time", "how to make a reactive component in PHP", "how to build dependent selects", "how to defer component rendering", "how to communicate between components via emit", "how to bind a form to a LiveComponent". Do NOT trigger for static reusable UI without reactivity (use twig-component), pure client-side JS behavior (use stimulus), or page-level navigation (use turbo).'
 license: MIT
 metadata:
   author: Simon Andre
@@ -216,6 +216,26 @@ public function delete(#[LiveArg] int $id): void
 {# Form submit (prevent default) #}
 <form data-action="live#action:prevent" data-live-action-param="submit">
 ```
+
+### Returning a LiveResponse
+
+Since Symfony UX 3.5+, an action can return a `LiveResponse` to change what happens after it, such as triggering a download:
+
+```php
+use Symfony\UX\LiveComponent\LiveResponse;
+
+#[LiveAction]
+public function export(UrlGeneratorInterface $urlGenerator): LiveResponse
+{
+    ++$this->exportCount;  // Still shown: the component re-renders as usual
+
+    return LiveResponse::downloadUrl($urlGenerator->generate('app_report_download'));
+}
+```
+
+`downloadFile()` sends the file with the render when no URL can serve it, `remove()` takes the component off the page, and since Symfony UX 3.8+, `noRender()` skips the render, for state the template does not show.
+
+Return a `LiveResponse` only from a `LiveAction` or a `LiveListener`. For redirects and batched actions, see [references/api.md](references/api.md#liveresponse).
 
 ## Search Example (Complete)
 
